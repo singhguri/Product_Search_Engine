@@ -11,29 +11,29 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Test {
-	public static List<Product> monthly = new ArrayList<>();
+	public static List<ProductInfo> monthly = new ArrayList<>();
 
-	public static List<Product> unlocked = new ArrayList<>();
+	public static List<ProductInfo> unlocked = new ArrayList<>();
 
 	public static void sort() {
-		Collections.sort(monthly, new Comparator<Product>() {
+		Collections.sort(monthly, new Comparator<ProductInfo>() {
 			@Override
-			public int compare(Product p1, Product p2) {
-				return (Double.compare(p1.price, p2.price));
+			public int compare(ProductInfo p1, ProductInfo p2) {
+				return (Double.compare(p1.getProductPrice(), p2.getProductPrice()));
 			}
 		});
 
-		Collections.sort(unlocked, new Comparator<Product>() {
+		Collections.sort(unlocked, new Comparator<ProductInfo>() {
 			@Override
-			public int compare(Product p1, Product p2) {
-				return (Double.compare(p1.price, p2.price));
+			public int compare(ProductInfo p1, ProductInfo p2) {
+				return (Double.compare(p1.getProductPrice(), p2.getProductPrice()));
 			}
 		});
 	}
 
-	public static void filter(List<Product> main) {
-		for (Product p : main) {
-			String normalize_type = p.paymentType.toLowerCase();
+	public static void filter(List<ProductInfo> main) {
+		for (ProductInfo p : main) {
+			String normalize_type = p.getProductPaymentType().toLowerCase();
 			if (normalize_type.contains("monthly"))
 				monthly.add(p);
 			else
@@ -42,11 +42,11 @@ public class Test {
 		sort();
 	}
 
-	public static void searchByBrand(String brand, List<Product> p, String filter) {
-		List<Product> results = new ArrayList<>();
+	public static void searchByBrand(String brand, List<ProductInfo> p, String filter) {
+		List<ProductInfo> results = new ArrayList<>();
 		int i = 0;
 		while (i < p.size()) {
-			String normalize_name = p.get(i).name.toLowerCase();
+			String normalize_name = p.get(i).getProductName().toLowerCase();
 			if (normalize_name.contains(brand))
 				results.add(p.get(i));
 			i++;
@@ -54,21 +54,21 @@ public class Test {
 		if (results.size() > 0) {
 			System.out.println("\nShowing top " + results.size() + " results"
 					+ ((filter != null && filter.length() > 0) ? (" by " + filter + " filter:") : ":"));
-			for (Product pr : results) {
-				System.out.println("Item: " + pr.getName());
-				System.out.println("Price: " + pr.getFormattedPrice());
-				System.out.println("Financing type: " + pr.getPaymentType());
-				System.out.println("Link: " + pr.getLink() + "\n");
+			for (ProductInfo pr : results) {
+				System.out.println("Item: " + pr.getProductName());
+				System.out.println("getProductPrice(): " + pr.getProductPrice());
+				System.out.println("Financing type: " + pr.getProductPaymentType());
+				System.out.println("Link: " + pr.getProductLink() + "\n");
 			}
 		}
 	}
 
-	public static void searchByMemory(String memory, List<Product> p, String filter) {
-		List<Product> results = new ArrayList<>();
+	public static void searchByMemory(String memory, List<ProductInfo> p, String filter) {
+		List<ProductInfo> results = new ArrayList<>();
 		memory += "gb";
 		int i = 0;
 		while (i < p.size()) {
-			String normalize_name = p.get(i).name.toLowerCase();
+			String normalize_name = p.get(i).getProductName().toLowerCase();
 			if (normalize_name.contains(memory))
 				results.add(p.get(i));
 			i++;
@@ -77,35 +77,35 @@ public class Test {
 		if (results.size() > 0) {
 			System.out.println("\nShowing top " + results.size() + " results"
 					+ ((filter != null && filter.length() > 0) ? (" by " + filter + " filter:") : ":"));
-			for (Product pr : results) {
-				System.out.println("Item: " + pr.getName());
-				System.out.println("Price: " + pr.getFormattedPrice());
-				System.out.println("Financing type: " + pr.getPaymentType());
-				System.out.println("Link: " + pr.getLink() + "\n");
+			for (ProductInfo pr : results) {
+				System.out.println("Item: " + pr.getProductName());
+				System.out.println("getProductPrice(): " + pr.getProductPrice());
+				System.out.println("Financing type: " + pr.getProductPaymentType());
+				System.out.println("Link: " + pr.getProductLink() + "\n");
 			}
 		}
 
 	}
 
-	public static void searchByBrandAndMemory(String brand, String memory, List<Product> p, String filter) {
-		List<Product> results = new ArrayList<>();
+	public static void searchByBrandAndMemory(String brand, String memory, List<ProductInfo> p, String filter) {
+		List<ProductInfo> results = new ArrayList<>();
 		memory += "gb";
 		int i = 0;
 		while (i < p.size()) {
-			String normalize_name = p.get(i).name.toLowerCase();
+			String normalize_name = p.get(i).getProductName().toLowerCase();
 			if (normalize_name.contains(brand) && normalize_name.contains(memory))
 				results.add(p.get(i));
 			i++;
 		}
 		i = 3;
 		System.out.println("\nShowing top 3 results:");
-		for (Product pr : results) {
+		for (ProductInfo pr : results) {
 			if (i == 0)
 				break;
-			System.out.println("Item: " + pr.getName());
-			System.out.println("Price: " + pr.getFormattedPrice());
-			System.out.println("Financing type: " + pr.getPaymentType());
-			System.out.println("Link: " + pr.getLink() + "\n");
+			System.out.println("Item: " + pr.getProductName());
+			System.out.println("getProductPrice(): " + pr.getProductPrice());
+			System.out.println("Financing type: " + pr.getProductPaymentType());
+			System.out.println("Link: " + pr.getProductLink() + "\n");
 			i--;
 		}
 
@@ -113,7 +113,7 @@ public class Test {
 
 	public static void phoneSearch() throws IOException {
 		String url = "https://www.bestbuy.ca/en-ca";
-		String product = "";
+		String productProductInfo = "";
 		int searchPage;
 		String brand = "";
 		String memory = "";
@@ -125,20 +125,20 @@ public class Test {
 		sp.getVocab();
 		sp.setnumberOfSuggestions(N);
 
-		List<Product> products = new ArrayList<>();
+		List<ProductInfo> productProductInfos = new ArrayList<>();
 		WebCrawler obj = new WebCrawler();
 
 		Scanner sc = new Scanner(System.in);
 
 		System.out.println("*****************************************************");
-		System.out.println("************ BEST BUY PRODUCTS FETCHER **************");
+		System.out.println("************ BEST BUY PRODUCTProductInfoS FETCHER **************");
 		System.out.println("*****************************************************");
 
-		// System.out.print("\nSearch product: ");
-		// product = sc.next();
-		product = "mobile";
+		// System.out.print("\nSearch productProductInfo: ");
+		// productProductInfo = sc.next();
+		productProductInfo = "mobile";
 		System.out.println("\nCRAWLING FOR RELEVANT LINK.....\n");
-		obj.crawl(url, product);
+		obj.crawl(url, productProductInfo);
 
 		System.out.println("\nLINK FOUND!!\n");
 
@@ -147,9 +147,9 @@ public class Test {
 		// System.out.println("Number of pages to search: ");
 		// searchPage = sc.nextInt();
 		searchPage = 10;
-		System.out.println("\nFETCHING PRODUCTS.....\n");
-		products = WebScrapper.getItems(obj.resultLink, products, searchPage);
-		filter(products);
+		System.out.println("\nFETCHING PRODUCTProductInfoS.....\n");
+		productProductInfos = WebScrapper.getItems(obj.resultLink, productProductInfos, searchPage);
+		filter(productProductInfos);
 
 		while (user_option != 4) {
 			System.out.println("Options: ");
