@@ -28,6 +28,3 @@ pixel
 appl
 pixe
 pixel
-apple
-sass
-microsoft

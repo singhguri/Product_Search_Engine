@@ -11,7 +11,8 @@ public class InvertedIndex {
 	// method for accessing the inverted indexing
 	public static void readFile() {
 
-		// Hashmap for holding the indexes of the the occurrences of word in a particular doc
+		// Hashmap for holding the indexes of the the occurrences of word in a
+		// particular doc
 		// Word String as key and list of indexes as value
 		HashMap<String, List<Integer>> occurencesOfWord = new HashMap<String, List<Integer>>();
 
@@ -36,8 +37,8 @@ public class InvertedIndex {
 		while (x < documents.size()) { // loop for accessing the documents
 
 			try {
-				scanFile = new Scanner(new FileReader("text/" + documents.get(x))); // scanning the files based on
-																						// the index
+				// scanning the files based on the index
+				scanFile = new Scanner(new FileReader("text/" + documents.get(x)));
 			} catch (FileNotFoundException e) { // exception if the file is not found
 				System.err.println(e);
 				return;
@@ -53,38 +54,38 @@ public class InvertedIndex {
 					occurencesList = occurencesOfWord.get(readWord);
 					occurencesList.add(index);
 				}
-				
+
 				// otherwise creating a new key with word and also store the index
 				else {
 					occurencesList = new ArrayList<Integer>();
 					occurencesList.add(index);
 				}
-				//increasing value for holding the index
+				// increasing value for holding the index
 				index = index + readWord.length();
-				//adding the word and new list of indexes
+				// adding the word and new list of indexes
 				occurencesOfWord.put(readWord, occurencesList);
-				//emptying the occurrences list for restarting fresh 
+				// emptying the occurrences list for restarting fresh
 				occurencesList = new ArrayList<Integer>();
-			}//end of while for a document
-			
-			//adding the data for final result map with document name as key and words with its list of indexes
+			} // end of while for a document
+
+			// adding the data for final result map with document name as key and words with
+			// its list of indexes
 			resultMap.put(documents.get(x), occurencesOfWord);
-//			System.out.println(documents.get(x));
-//			System.out.println(resultMap);
-			
-			//emptying the hash map for restarting another document
+			// StdOut.println(documents.get(x));
+			// StdOut.println(resultMap);
+
+			// emptying the hash map for restarting another document
 			occurencesOfWord = new HashMap<String, List<Integer>>();
-			//incrementing the document index for fetching the next file in the documents
+			// incrementing the document index for fetching the next file in the documents
 			x++;
 		}
-		System.out.println(resultMap);	
+		StdOut.println(resultMap);
 	}
-	
-	
-	//main method for this class
+
+	// main method for this class
 	public static void main(String[] args) {
-		
-		//calling the fileaccessories method for indexing the files
+
+		// calling the fileaccessories method for indexing the files
 		readFile();
 	}
 

@@ -25,6 +25,7 @@ public class WordCompletion {
 
 		String finalResult = "";
 		TrieNode currNode = trie.root;
+		;
 
 		for (int i = 0; i < word.length(); i++) {
 			int index = word.charAt(i) - 'a';
@@ -78,7 +79,7 @@ public class WordCompletion {
 
 	public static void main(String[] args) throws IOException {
 
-		System.out.println(completeWord("he"));
+		StdOut.println(completeWord("he"));
 
 	}
 

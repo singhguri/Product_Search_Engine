@@ -18,6 +18,7 @@ public class SpellChecking {
 	SpellChecking() {
 		numberOfSuggestions = 10;
 		mp = new HashMap<>();
+		mp = new HashMap<>();
 		dictionary = new ArrayList<>();
 		suggestions = new String[numberOfSuggestions];
 	}
@@ -42,6 +43,8 @@ public class SpellChecking {
 			return a;
 		return b;
 	}
+
+	// using edit distance concept between two words
 
 	// using edit distance concept between two words
 	public static int getEditDistance(String word1, String word2) {
@@ -89,10 +92,7 @@ public class SpellChecking {
 
 	// assembles every word from the vocabulary
 	public void getVocab() throws IOException {
-		File files = new File(
-				"C:\\Users\\admin\\Downloads\\Product_Search_Engine\\dictionary\\Oxford English Dictionary.txt");
-		// This will open the file containing the dictionary words
-		// System.out.println("File exist: "+files.exists());
+		File files = new File("C:\\Users\\admin\\Downloads\\Hoa_To_part\\dictionary\\Oxford English Dictionary.txt");
 
 		StringBuilder SB = new StringBuilder();
 		StringTokenizer STK;

@@ -1,9 +1,11 @@
 package main;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
 public class SearchFrequency {
 
 	public static void FrequentCount(String keyword) throws IOException {
@@ -26,15 +28,15 @@ public class SearchFrequency {
 		}
 		if (count != 0) // Check if the count not equal to zero
 		{
-			System.out.println("*************************************************");
-			System.out.println("This word has been searched for " + count + " times.");
-			System.out.println("*************************************************");
+			StdOut.println("*************************************************");
+			StdOut.println("This word has been searched for " + count + " times.");
+			StdOut.println("*************************************************");
 			fw.write(keyword + "\n");
 			fw.close();
 		} else {
-			System.out.println("*************************************************");
-			System.out.println("The given word was not searched before therefore adding the word to the library.");
-			System.out.println("*************************************************");
+			StdOut.println("*************************************************");
+			StdOut.println("The given word was not searched before therefore adding the word to the library.");
+			StdOut.println("*************************************************");
 
 			fw.write(keyword + "\n");
 			fw.close();

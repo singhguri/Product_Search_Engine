@@ -59,6 +59,7 @@ public class WebScrapper {
 		for (int i = 1; i <= numSearch; i++) {
 			// Replace page number
 			start_url = start_url.substring(0, start_url.length() - 1);
+			start_url = start_url.substring(0, start_url.length() - 1);
 			start_url = start_url + Integer.toString(i);
 
 			// Scrapping the name, price and link to buy of products
@@ -78,26 +79,29 @@ public class WebScrapper {
 					Elements priceContainer = item.select(PRODUCT_PRICES);
 					Element price = priceContainer.select(PRODUCT_INDIVIDUAL_PRICE).first();
 					if (!priceContainer.isEmpty()) {
-						double priceValue = Double.parseDouble(price.text().replace(",", "").substring(1));
-						// System.out.println("Price: "+price.text());
-						p.setProductFormattedPrice(price.text());
-						p.setProductPrice(priceValue);
-					}
+						if (!priceContainer.isEmpty()) {
+							double priceValue = Double.parseDouble(price.text().replace(",", "").substring(1));
+							// System.out.println("Price: "+price.text());
+							p.setProductFormattedPrice(price.text());
+							p.setProductPrice(priceValue);
+						}
 
-					Elements link = item.select("a[href]");
-					if (!link.isEmpty()) {
-						p.setProductLink(link.first().attr("href"));
-						// System.out.println("Link: "+link.attr("href")+"\n");
+						Elements link = item.select("a[href]");
+						if (!link.isEmpty()) {
+							p.setProductLink(link.first().attr("href"));
+							// System.out.println("Link: "+link.attr("href")+"\n");
+						}
+						checkProductInfo(p);
+						if (hasItem(products, p))
+							continue;
+						products.add(p);
 					}
-					checkProductInfo(p);
-					if (hasItem(products, p))
-						continue;
-					products.add(p);
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
 		}
 		return (products);
 	}

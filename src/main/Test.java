@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -52,7 +50,7 @@ public class Test {
 			i++;
 		}
 		if (results.size() > 0) {
-			System.out.println("\nShowing top " + results.size() + " results"
+			StdOut.println("\nShowing top " + results.size() + " results"
 					+ ((filter != null && filter.length() > 0) ? (" by " + filter + " filter:") : ":"));
 			for (ProductInfo pr : results) {
 				System.out.println("Item: " + pr.getProductName());
@@ -75,7 +73,7 @@ public class Test {
 		}
 
 		if (results.size() > 0) {
-			System.out.println("\nShowing top " + results.size() + " results"
+			StdOut.println("\nShowing top " + results.size() + " results"
 					+ ((filter != null && filter.length() > 0) ? (" by " + filter + " filter:") : ":"));
 			for (ProductInfo pr : results) {
 				System.out.println("Item: " + pr.getProductName());
@@ -140,11 +138,11 @@ public class Test {
 		System.out.println("\nCRAWLING FOR RELEVANT LINK.....\n");
 		obj.crawl(url, productProductInfo);
 
-		System.out.println("\nLINK FOUND!!\n");
+		StdOut.println("\nLINK FOUND!!\n");
 
-		System.out.println("Mobile Store Link: " + obj.resultLink);
+		StdOut.println("Mobile Store Link: " + obj.resultLink);
 
-		// System.out.println("Number of pages to search: ");
+		// StdOut.println("Number of pages to search: ");
 		// searchPage = sc.nextInt();
 		searchPage = 10;
 		System.out.println("\nFETCHING PRODUCTProductInfoS.....\n");
@@ -152,27 +150,27 @@ public class Test {
 		filter(productProductInfos);
 
 		while (user_option != 4) {
-			System.out.println("Options: ");
-			System.out.println("1. Search by brand");
-			System.out.println("2. Search by memory");
-			System.out.println("3. Search by brand and memory");
-			System.out.println("4. Quit");
+			StdOut.println("Options: ");
+			StdOut.println("1. Search by brand");
+			StdOut.println("2. Search by memory");
+			StdOut.println("3. Search by brand and memory");
+			StdOut.println("4. Quit");
 
-			System.out.println("Enter option: ");
+			StdOut.println("Enter option: ");
 			user_option = sc.nextInt();
 			switch (user_option) {
 				case 1: {
-					System.out.println("Enter a brand name: ");
+					StdOut.println("Enter a brand name: ");
 					brand = sc.next().toLowerCase();
 					while (!sp.isCorrect(brand)) {
 						SearchFrequency.FrequentCount(brand);
 						sp.getAltWords(brand);
 						String[] s = sp.suggestions;
-						System.out.println("Do you mean: ");
+						StdOut.println("Do you mean: ");
 						for (int i = 0; i < 10; i++) {
-							System.out.println(s[i]);
+							StdOut.println(s[i]);
 						}
-						System.out.println("Enter a valid brand name: ");
+						StdOut.println("Enter a valid brand name: ");
 						brand = sc.next().toLowerCase();
 					}
 					SearchFrequency.FrequentCount(brand);
@@ -181,11 +179,11 @@ public class Test {
 					break;
 				}
 				case 2: {
-					System.out.println("Enter memory size (in GB): ");
+					StdOut.println("Enter memory size (in GB): ");
 					memory = sc.next();
 					while (!DataValidation.memoryValidation(memory)) {
-						System.out.println("Invalid input!");
-						System.out.println("Enter a valid memory size (in GB): ");
+						StdOut.println("Invalid input!");
+						StdOut.println("Enter a valid memory size (in GB): ");
 						memory = sc.next();
 					}
 					searchByMemory(memory, monthly, "monthly payment type");
@@ -194,25 +192,25 @@ public class Test {
 					break;
 				}
 				case 3: {
-					System.out.println("Enter a brand name: ");
+					StdOut.println("Enter a brand name: ");
 					brand = sc.next().toLowerCase();
 					while (!sp.isCorrect(brand)) {
 						SearchFrequency.FrequentCount(brand);
 						sp.getAltWords(brand);
 						String[] s = sp.suggestions;
-						System.out.println("Do you mean: ");
+						StdOut.println("Do you mean: ");
 						for (int i = 0; i < 10; i++) {
-							System.out.println(s[i]);
+							StdOut.println(s[i]);
 						}
-						System.out.println("Enter valid a brand name: ");
+						StdOut.println("Enter valid a brand name: ");
 						brand = sc.next().toLowerCase();
 					}
 					SearchFrequency.FrequentCount(brand);
-					System.out.println("Enter memory size (in GB): ");
+					StdOut.println("Enter memory size (in GB): ");
 					memory = sc.next();
 					while (!DataValidation.memoryValidation(memory)) {
-						System.out.println("Invalid input!");
-						System.out.println("Enter a valid memory size (in GB): ");
+						StdOut.println("Invalid input!");
+						StdOut.println("Enter a valid memory size (in GB): ");
 						memory = sc.next();
 					}
 					searchByBrandAndMemory(brand, memory, monthly, "monthly payment type");
@@ -220,11 +218,11 @@ public class Test {
 					break;
 				}
 				case 4: {
-					System.out.println("EXITING.....");
+					StdOut.println("EXITING.....");
 					break;
 				}
 				default: {
-					System.out.println("Invalid option! Try again!");
+					StdOut.println("Invalid option! Try again!");
 					break;
 				}
 			}
@@ -244,37 +242,37 @@ public class Test {
 		WebCrawler obj = new WebCrawler();
 		String query = "";
 		Map<String, Integer> pageRankMap;
-		System.out.println("*****************************************************");
-		System.out.println("************ PAGE RANKING DEMONSTRATION *************");
-		System.out.println("*****************************************************");
+		StdOut.println("*****************************************************");
+		StdOut.println("************ PAGE RANKING DEMONSTRATION *************");
+		StdOut.println("*****************************************************");
 
-		System.out.println("Enter starting url: ");
+		StdOut.println("Enter starting url: ");
 		url = in.next();
-		System.out.println("Enter of maximume pages to crawl: ");
+		StdOut.println("Enter of maximume pages to crawl: ");
 		maxSearch = in.nextInt();
-		System.out.println("\n******************** CRAWLING *********************");
+		StdOut.println("\n******************** CRAWLING *********************");
 		obj.crawl(url, maxSearch);
 		obj.saveURLasText();
 
 		// Word frequency
-		System.out.println("\n************** ALL WORDS' FREQUENCY ***************");
+		StdOut.println("\n************** ALL WORDS' FREQUENCY ***************");
 		FrequencyCount.frqcount();
-		System.out.println("\n");
+		StdOut.println("\n");
 		InvertedIndex.readFile();
 		// Page ranking
-		System.out.println("\n***************** PAGE RANKING ********************");
-		System.out.println("\nEnter string to search: ");
+		StdOut.println("\n***************** PAGE RANKING ********************");
+		StdOut.println("\nEnter string to search: ");
 		query = in.next();
 
-		System.out.println("Did you mean: " + WordCompletion.completeWord(query) + "?");
+		StdOut.println("Did you mean: " + WordCompletion.completeWord(query) + "?");
 		query = WordCompletion.completeWord(query);
-		System.out.println("Top 10 pages' ranking of the word " + query + "\n");
+		StdOut.println("Top 10 pages' ranking of the word " + query + "\n");
 		PageRanking.calculatePageRank(query);
 
 		/*
 		 * for(Map.Entry<String, Integer> entry: pageRankMap.entrySet())
 		 * {
-		 * System.out.println(entry.getKey()+": "+entry.getValue());
+		 * StdOut.println(entry.getKey()+": "+entry.getValue());
 		 * }
 		 */
 
