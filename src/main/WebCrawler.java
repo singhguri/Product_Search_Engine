@@ -13,91 +13,71 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-/*
- *
- *
- * WebCrawler class 
- * 
- * Use function crawl() by:
- * - inputing a start URL
- * - input a keyword that the URL contains
- * 
- * crawl() traverse through each URL in the start URL and stop
- * when the first link with keyword is found
- */
 
 public class WebCrawler {
-	// Set that stores all crawled links
+	// Create a static field to store all crawled links
 	private static HashSet<String> urlLinks;
 
-	// Link that contain keyword
+	// Create a static field to store the link that contains the keyword
 	public static String resultLink;
 
-	// Number of pages crawled
+	// Create a static field to store the number of pages crawled
 	public static int numPage = 0;
 
-	// Initialize set using constructor
+	// Create a constructor to initialize the set of crawled links
 	public WebCrawler() {
 		urlLinks = new HashSet<>();
 	}
 
-	// Crawl function
 	public static void crawl(String URL, String keyword) throws IOException {
-		// add to crawled links
-		urlLinks.add(URL);
-		Document document = Jsoup.connect(URL).get();
 
-		// Regex pattern for https links
+		// Adds the current URL to the visited URLs
+		urlLinks.add(URL);
+		Document document = Jsoup.connect(URL).get(); // Connects to the current URL and retrieve the HTML document
+														// using the JSoup library
+
+		// Defines the regular expresion for the URLs that the web crawler would follow
 		String patternCrawl = "^(https?)://(www\\.)[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*(\\.)(ca|com)[-a-zA-Z0-9+&@#/%=~_|]*";
 		Pattern pattern = Pattern.compile(patternCrawl);
 
-		// All href links in the root url
+		// Retrieves the tags that contain the href links
 		Elements pageLinks = document.select("a[href]");
 
 		String url;
-		// number of duplicate urls
-		long duplicateURL = 0;
+		long duplicateURL = 0, notMatch = 0;
 
-		// number of invalid urls - urls that do not match regex string
-		long notMatch = 0;
-
-		// Continue to crawl all the links in root url until an url that contains the
-		// keyword is found
+		// Iterates through each anchor tag and extracts the URL from the href attribute
+		// Checks whether the URL has been visited or it matches the pattern.
+		// If visited the duplicate URL counter is incremented
+		// Else if the pattern does not match the noMtach counter is incremented
+		// Else if the pattern has not been visited but matches the pattern it adds the
+		// URL to the visited list of the URLs
 		for (Element currentPage : pageLinks) {
 			url = currentPage.attr("abs:href");
 
-			// check if current link is valid using regex
 			Matcher matcher = pattern.matcher(url);
 
-			// if link already crawled do not add to crawled links
 			if (urlLinks.contains(url)) {
-				// StdOut.println(url+ " | URL previously visited");
-
 				duplicateURL++;
 			}
-			// if link is invalid do not add to crawled links
+
 			else if (!matcher.find()) {
-				// StdOut.println("break"+matcher.find());
-				// StdOut.println(url+ " | URL does not matched the pattern requirement");
+				// System.out.println("break"+matcher.find());
 				notMatch++;
 			}
 
-			// else add to crawled links
 			else {
 				urlLinks.add(currentPage.attr("abs:href"));
-				// StdOut.println(url+ " | URL will be crawled");
+				// System.out.println(url+ " URL will be crawled");
 			}
-			// break when keyword is found
+
+			// Checks whether the current URL contains the keyword being searched for
 			if (url.contains(keyword)) {
-				// StdOut.println(url);
+				// System.out.println(url);
 				resultLink = url;
 				break;
 			}
 		}
-
-		// StdOut.println("Number of duplicate URLs : "+duplicateURL);
-		// StdOut.println("Number of invalid URLs : "+notMatch);
-		// StdOut.println("Number of unique URLs : "+urlLinks.size());
 	}
 
 	public static void crawl(String URL, int maxSearch) {
@@ -106,12 +86,12 @@ public class WebCrawler {
 		Pattern pattern = Pattern.compile(patternCrawl);
 		Matcher matcher = pattern.matcher(URL);
 
-		// StdOut.print(matcher.find());
+		// Checks if the starting URL has not been crawled
 		if (((!urlLinks.contains(URL) && (numPage < maxSearch))) && (matcher.find())) {
-			StdOut.println("Page " + (numPage + 1) + ": " + URL);
+			System.out.println("Page " + (numPage + 1) + ": " + URL);
 			try {
-				urlLinks.add(URL);
-				Document document = Jsoup.connect(URL).get();
+				urlLinks.add(URL); // Adds the starting URl to the hashset
+				Document document = Jsoup.connect(URL).get(); // Retrieves the HTML document of the starting URL
 
 				// All href links in the root url
 				Elements pageLinks = document.select("a[href]");
@@ -120,7 +100,10 @@ public class WebCrawler {
 					crawl(currentPage.attr("abs:href"), maxSearch);
 				}
 
-			} catch (IOException e) {
+			}
+			// Cathes any IOExecption that may occur while trying to retrieve the HTML
+			// documents
+			catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -128,35 +111,40 @@ public class WebCrawler {
 	}
 
 	public static void saveURLasText() throws IOException {
-		// Initialization
-		// Current directory
-		String currentDir = System.getProperty("user.dir");
+		String currentDir = System.getProperty("user.dir"); // Gets the current working directory and stores it
 
-		// The location for the directory that stored all text versions of html files
+		// COntains the path to the directory where the text files would be stored
 		String textLocation = currentDir + "\\text\\";
 		File textFiles = new File(textLocation);
 
-		// Create directory for all text files
+		// Creates a directory for all text files if the directory doesnt exist
 		if (textFiles.mkdir() == true) {
-			StdOut.println("Text files directory has been created successfully");
+			System.out.println("Text files directory has been created successfully");
 		} else {
-			StdOut.println("Text files directory cannot be created");
+			System.out.println("Text files directory cannot be created");
 		}
 		String URL, text, fileLocation, fileNamePattern;
 
-		// Regex for valid file name
+		// Regular expression for a valid file name
 		fileNamePattern = "[^a-zA-Z0-9_-]";
 
 		Iterator<String> iterator = urlLinks.iterator();
+		// Goes through each element in the urlLinks sets and assigns it to the URL
+		// variable
 		while (iterator.hasNext()) {
 			URL = iterator.next();
 
-			Document document = Jsoup.connect(URL).get();
+			Document document = Jsoup.connect(URL).get(); // Connects to the specified URL using JSoup
 
-			text = document.body().text();
-			// StdOut.println(document.title());
+			text = document.body().text(); // Extracts the body text of the HTML document and stores it
+			// Adds the .txt extension to the HTMl document and removes any characters not
+			// valid in a file name
 			String textFileName = document.title().replaceAll(fileNamePattern, "") + ".txt";
+			// Creates a new file by concatenating the location of the text and the nale of
+			// the file
 			File html = new File(textLocation + textFileName);
+			// Write the URL and the text from the webpage to a text file in the specified
+			// directory
 			BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(html, true));
 			bufferedWriter.write(URL + " " + text);
 			bufferedWriter.close();
@@ -165,8 +153,8 @@ public class WebCrawler {
 
 	public static void main(String[] args) throws IOException {
 		WebCrawler obj = new WebCrawler();
+		// Defines the URL to crawl and the maximum pages to crawl
 		obj.crawl("https://www.bestbuy.ca/en-ca", 50);
-		obj.saveURLasText();
-		// obj.crawl("https://www.bestbuy.ca/en-ca","mobile");
+		obj.saveURLasText(); // Saves the crawled URLs as text
 	}
 }

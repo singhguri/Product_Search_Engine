@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
+import main.Trie.TrieNode;
+
 public class WordCompletion {
 	// Initializes the current directory and returns the path of the current working
 	// directory as a string
@@ -44,7 +46,7 @@ public class WordCompletion {
 
 		// Processes the remaining characters in the trie after the end of the input
 		// word
-		while (!currNode.isEnd) {
+		while (!currNode.isEndOfWord) {
 			for (int i = 0; i < 26; i++) {
 				if (currNode.children[i] != null) {
 					finalResult += (char) ('a' + i);
@@ -64,7 +66,7 @@ public class WordCompletion {
 			String word = token.nextToken().toLowerCase();
 			// Checking if the word is alphabets
 			if (word != null && word.matches("^[a-zA-Z]*$")) {
-				trie.add(word);
+				trie.insert(word);
 			}
 		}
 	}
