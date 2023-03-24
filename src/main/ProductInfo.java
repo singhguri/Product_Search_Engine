@@ -1,9 +1,9 @@
 package main;
  
 
+//This class Stores information about productname, productprice, prodct pricing type and product purchasing links
 
-public class ProductInfo {//This class Stores information about a product's name, price, pricing type and purchasing links
-
+public class ProductInfo {
 	/*These lines declare private instance variables for the ProductInfo class. 
 	These variables are used to store the name, link, formatted price, payment type, and price of a product.
 	 The private keyword means that these variables can only be accessed within the class. */
