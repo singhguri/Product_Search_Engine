@@ -37,7 +37,7 @@ public class PageRanking {
 		for (File f : files) {
 			// extracting name of the file
 			String file = f.getName();
-			// StdOut.println(f.getAbsolutePath());
+			System.out.println(file);
 			// extracting the entire path of the file
 			String filePath = f.getAbsolutePath();
 			// byte array holding the texts
