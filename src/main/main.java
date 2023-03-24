@@ -43,10 +43,12 @@ public class main {
 	public static void searchByBrand(String brand, List<ProductInfo> p, String filter) {
 		List<ProductInfo> results = new ArrayList<>();
 		int index = 0;
+
 		while (index < p.size()) {
 			String normalize_name = p.get(index).getProductName().toLowerCase();
 			if (normalize_name.contains(brand))
-				results.add(p.get(index));
+				if (!results.contains(p.get(index)))
+					results.add(p.get(index));
 			index++;
 		}
 		if (results.size() > 0) {
@@ -54,7 +56,7 @@ public class main {
 					+ ((filter != null && filter.length() > 0) ? (" by " + filter + " filter:") : ":"));
 			for (ProductInfo pr : results) {
 				StdOut.println("Item: " + pr.getProductName());
-				StdOut.println("getProductPrice(): " + pr.getProductPrice());
+				StdOut.println("Price: " + pr.getProductPrice());
 				StdOut.println("Financing type: " + pr.getProductPaymentType());
 				StdOut.println("Link: " + pr.getProductLink() + "\n");
 			}
@@ -68,7 +70,8 @@ public class main {
 		while (index < p.size()) {
 			String normalize_name = p.get(index).getProductName().toLowerCase();
 			if (normalize_name.contains(memory))
-				results.add(p.get(index));
+				if (!results.contains(p.get(index)))
+					results.add(p.get(index));
 			index++;
 		}
 
@@ -77,7 +80,7 @@ public class main {
 					+ ((filter != null && filter.length() > 0) ? (" by " + filter + " filter:") : ":"));
 			for (ProductInfo pr : results) {
 				StdOut.println("Item: " + pr.getProductName());
-				StdOut.println("getProductPrice(): " + pr.getProductPrice());
+				StdOut.println("Price: " + pr.getProductPrice());
 				StdOut.println("Financing type: " + pr.getProductPaymentType());
 				StdOut.println("Link: " + pr.getProductLink() + "\n");
 			}
@@ -92,7 +95,8 @@ public class main {
 		while (index < p.size()) {
 			String normalize_name = p.get(index).getProductName().toLowerCase();
 			if (normalize_name.contains(brand) && normalize_name.contains(memory))
-				results.add(p.get(index));
+				if (!results.contains(p.get(index)))
+					results.add(p.get(index));
 			index++;
 		}
 		StdOut.println("\nShowing top " + results.size() + " results:");
@@ -100,7 +104,7 @@ public class main {
 			if (index == 0)
 				break;
 			StdOut.println("Item: " + pr.getProductName());
-			StdOut.println("getProductPrice(): " + pr.getProductPrice());
+			StdOut.println("Price: " + pr.getProductPrice());
 			StdOut.println("Financing type: " + pr.getProductPaymentType());
 			StdOut.println("Link: " + pr.getProductLink() + "\n");
 		}
@@ -109,7 +113,7 @@ public class main {
 
 	public static void phoneSearch() throws IOException {
 		String url = "https://www.bestbuy.ca/en-ca";
-		String productProductInfo = "";
+		String productInfo = "";
 		int searchPage;
 		String brand = "";
 		String memory = "";
@@ -121,7 +125,7 @@ public class main {
 		sp.getVocab();
 		sp.setnumberOfSuggestions(N);
 
-		List<ProductInfo> productProductInfos = new ArrayList<>();
+		List<ProductInfo> products = new ArrayList<>();
 		WebCrawler obj = new WebCrawler();
 
 		Scanner sc = new Scanner(System.in);
@@ -132,9 +136,9 @@ public class main {
 
 		// StdOut.print("\nSearch productProductInfo: ");
 		// productProductInfo = sc.next();
-		productProductInfo = "mobile";
+		productInfo = "mobile";
 		StdOut.println("\nCRAWLING FOR RELEVANT LINK.....\n");
-		obj.crawl(url, productProductInfo);
+		obj.crawl(url, productInfo);
 
 		StdOut.println("\nLINK FOUND!!\n");
 
@@ -142,10 +146,11 @@ public class main {
 
 		// StdOut.println("Number of pages to search: ");
 		// searchPage = sc.nextInt();
-		searchPage = 10;
-		StdOut.println("\nFETCHING PRODUCTProductInfoS.....\n");
-		productProductInfos = WebScrapper.getItems(obj.resultLink, productProductInfos, searchPage);
-		filter(productProductInfos);
+		searchPage = 1;
+		StdOut.println("\nFETCHING PRODUCTS.....\n");
+
+		products = WebScrapper.getItems(obj.resultLink, products, searchPage);
+		filter(products);
 
 		while (user_option != 4) {
 			StdOut.println("Options: ");

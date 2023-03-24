@@ -1,10 +1,8 @@
 package main;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -65,7 +63,6 @@ public class WebScrapper {
 			// Scrapping the name, price and link to buy of products
 			try {
 				Document bestBuy = Jsoup.connect(start_url).get();
-
 				Elements items = bestBuy.getElementsByClass(PRODUCT_LIST_ITEM);
 
 				for (Element item : items) {
@@ -94,7 +91,9 @@ public class WebScrapper {
 						checkProductInfo(p);
 						if (hasItem(products, p))
 							continue;
-						products.add(p);
+
+						if (!products.contains(p))
+							products.add(p);
 					}
 				}
 			} catch (Exception e) {
@@ -110,6 +109,8 @@ public class WebScrapper {
 
 		String url = "https://www.bestbuy.ca/en-ca/category/best-buy-mobile/20006";
 		products = getItems(url, products, 10);
+
+		StdOut.println(products);
 
 		for (ProductInfo p : products) {
 			StdOut.println("Item: " + p.getProductName());
