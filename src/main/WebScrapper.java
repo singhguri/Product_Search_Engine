@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -96,7 +97,7 @@ public class WebScrapper {
 						products.add(p);
 					}
 				}
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 

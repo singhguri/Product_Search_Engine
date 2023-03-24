@@ -35,7 +35,8 @@ public class InvertedIndex {
 		// list holding the indexes
 		List<Integer> occurencesList = null;
 
-		while (x < documents.size()) { // loop for accessing the documents
+		// loop for accessing the documents
+		while (x < documents.size()) {
 
 			try {
 				// scanning the files based on the index

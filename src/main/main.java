@@ -42,12 +42,12 @@ public class main {
 
 	public static void searchByBrand(String brand, List<ProductInfo> p, String filter) {
 		List<ProductInfo> results = new ArrayList<>();
-		int i = 0;
-		while (i < p.size()) {
-			String normalize_name = p.get(i).getProductName().toLowerCase();
+		int index = 0;
+		while (index < p.size()) {
+			String normalize_name = p.get(index).getProductName().toLowerCase();
 			if (normalize_name.contains(brand))
-				results.add(p.get(i));
-			i++;
+				results.add(p.get(index));
+			index++;
 		}
 		if (results.size() > 0) {
 			StdOut.println("\nShowing top " + results.size() + " results"
@@ -64,12 +64,12 @@ public class main {
 	public static void searchByMemory(String memory, List<ProductInfo> p, String filter) {
 		List<ProductInfo> results = new ArrayList<>();
 		memory += "gb";
-		int i = 0;
-		while (i < p.size()) {
-			String normalize_name = p.get(i).getProductName().toLowerCase();
+		int index = 0;
+		while (index < p.size()) {
+			String normalize_name = p.get(index).getProductName().toLowerCase();
 			if (normalize_name.contains(memory))
-				results.add(p.get(i));
-			i++;
+				results.add(p.get(index));
+			index++;
 		}
 
 		if (results.size() > 0) {
@@ -88,23 +88,21 @@ public class main {
 	public static void searchByBrandAndMemory(String brand, String memory, List<ProductInfo> p, String filter) {
 		List<ProductInfo> results = new ArrayList<>();
 		memory += "gb";
-		int i = 0;
-		while (i < p.size()) {
-			String normalize_name = p.get(i).getProductName().toLowerCase();
+		int index = 0;
+		while (index < p.size()) {
+			String normalize_name = p.get(index).getProductName().toLowerCase();
 			if (normalize_name.contains(brand) && normalize_name.contains(memory))
-				results.add(p.get(i));
-			i++;
+				results.add(p.get(index));
+			index++;
 		}
-		i = 3;
-		StdOut.println("\nShowing top 3 results:");
+		StdOut.println("\nShowing top " + results.size() + " results:");
 		for (ProductInfo pr : results) {
-			if (i == 0)
+			if (index == 0)
 				break;
 			StdOut.println("Item: " + pr.getProductName());
 			StdOut.println("getProductPrice(): " + pr.getProductPrice());
 			StdOut.println("Financing type: " + pr.getProductPaymentType());
 			StdOut.println("Link: " + pr.getProductLink() + "\n");
-			i--;
 		}
 
 	}
@@ -129,7 +127,7 @@ public class main {
 		Scanner sc = new Scanner(System.in);
 
 		StdOut.println("*****************************************************");
-		StdOut.println("************ BEST BUY PRODUCTProductInfoS FETCHER **************");
+		StdOut.println("************ BEST BUY PRODUCTS FETCHER **************");
 		StdOut.println("*****************************************************");
 
 		// StdOut.print("\nSearch productProductInfo: ");
@@ -167,8 +165,8 @@ public class main {
 						sp.getAltWords(brand);
 						String[] s = sp.suggestions;
 						StdOut.println("Do you mean: ");
-						for (int i = 0; i < 10; i++) {
-							StdOut.println(s[i]);
+						for (int index = 0; index < 10; index++) {
+							StdOut.println(s[index]);
 						}
 						StdOut.println("Enter a valid brand name: ");
 						brand = sc.next().toLowerCase();
@@ -199,8 +197,8 @@ public class main {
 						sp.getAltWords(brand);
 						String[] s = sp.suggestions;
 						StdOut.println("Do you mean: ");
-						for (int i = 0; i < 10; i++) {
-							StdOut.println(s[i]);
+						for (int index = 0; index < 10; index++) {
+							StdOut.println(s[index]);
 						}
 						StdOut.println("Enter valid a brand name: ");
 						brand = sc.next().toLowerCase();
