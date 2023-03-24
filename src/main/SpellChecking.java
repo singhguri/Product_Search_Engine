@@ -86,7 +86,7 @@ public class SpellChecking {
 	// assembles every word from the vocabulary
 	public void getVocab() throws IOException 
 	{
-		File files = new File("C:\\Users\\admin\\Downloads\\Hoa_To_part\\dictionary\\Oxford English Dictionary.txt");  //This will open the file containing the dictionary words
+		File files = new File("C:\\Users\\bhavi\\eclipse-workspace\\Product_Search_Engine\\dictionary\\Oxford English Dictionary.txt");  //This will open the file containing the dictionary words
 		//System.out.println("File exist: "+files.exists());
 		
 		StringBuilder SB = new StringBuilder();
