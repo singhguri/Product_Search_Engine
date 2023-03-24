@@ -29,11 +29,11 @@ public class FrequencyCount {
 				BufferedReader in = new BufferedReader(new FileReader(t));
 				String temperoryString;
 				while ((temperoryString = in.readLine()) != null) {
-					stringReturn.append(temperoryString); // appending all the content to the string
+					// appending all the content to the string
+					stringReturn.append(temperoryString);
 				}
 				in.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -70,9 +70,10 @@ public class FrequencyCount {
 		// iterating the string words
 		while (stringTokenizer.hasMoreTokens()) {
 
-			stringTokenizersword = stringTokenizer.nextToken(); // holding the next token from stringTokenizer
-			// checking whether the word is alphanumeric and not null
+			// holding the next token from stringTokenizer
+			stringTokenizersword = stringTokenizer.nextToken();
 
+			// checking whether the word is alphanumeric and not null
 			if (stringTokenizersword.matches("^[a-zA-Z0-9]*$") && stringTokenizersword != null) {
 				// ignoring the cases
 

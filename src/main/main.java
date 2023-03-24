@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Test {
+public class main {
 	public static List<ProductInfo> monthly = new ArrayList<>();
 
 	public static List<ProductInfo> unlocked = new ArrayList<>();
@@ -53,10 +53,10 @@ public class Test {
 			StdOut.println("\nShowing top " + results.size() + " results"
 					+ ((filter != null && filter.length() > 0) ? (" by " + filter + " filter:") : ":"));
 			for (ProductInfo pr : results) {
-				System.out.println("Item: " + pr.getProductName());
-				System.out.println("getProductPrice(): " + pr.getProductPrice());
-				System.out.println("Financing type: " + pr.getProductPaymentType());
-				System.out.println("Link: " + pr.getProductLink() + "\n");
+				StdOut.println("Item: " + pr.getProductName());
+				StdOut.println("getProductPrice(): " + pr.getProductPrice());
+				StdOut.println("Financing type: " + pr.getProductPaymentType());
+				StdOut.println("Link: " + pr.getProductLink() + "\n");
 			}
 		}
 	}
@@ -76,10 +76,10 @@ public class Test {
 			StdOut.println("\nShowing top " + results.size() + " results"
 					+ ((filter != null && filter.length() > 0) ? (" by " + filter + " filter:") : ":"));
 			for (ProductInfo pr : results) {
-				System.out.println("Item: " + pr.getProductName());
-				System.out.println("getProductPrice(): " + pr.getProductPrice());
-				System.out.println("Financing type: " + pr.getProductPaymentType());
-				System.out.println("Link: " + pr.getProductLink() + "\n");
+				StdOut.println("Item: " + pr.getProductName());
+				StdOut.println("getProductPrice(): " + pr.getProductPrice());
+				StdOut.println("Financing type: " + pr.getProductPaymentType());
+				StdOut.println("Link: " + pr.getProductLink() + "\n");
 			}
 		}
 
@@ -96,14 +96,14 @@ public class Test {
 			i++;
 		}
 		i = 3;
-		System.out.println("\nShowing top 3 results:");
+		StdOut.println("\nShowing top 3 results:");
 		for (ProductInfo pr : results) {
 			if (i == 0)
 				break;
-			System.out.println("Item: " + pr.getProductName());
-			System.out.println("getProductPrice(): " + pr.getProductPrice());
-			System.out.println("Financing type: " + pr.getProductPaymentType());
-			System.out.println("Link: " + pr.getProductLink() + "\n");
+			StdOut.println("Item: " + pr.getProductName());
+			StdOut.println("getProductPrice(): " + pr.getProductPrice());
+			StdOut.println("Financing type: " + pr.getProductPaymentType());
+			StdOut.println("Link: " + pr.getProductLink() + "\n");
 			i--;
 		}
 
@@ -128,14 +128,14 @@ public class Test {
 
 		Scanner sc = new Scanner(System.in);
 
-		System.out.println("*****************************************************");
-		System.out.println("************ BEST BUY PRODUCTProductInfoS FETCHER **************");
-		System.out.println("*****************************************************");
+		StdOut.println("*****************************************************");
+		StdOut.println("************ BEST BUY PRODUCTProductInfoS FETCHER **************");
+		StdOut.println("*****************************************************");
 
-		// System.out.print("\nSearch productProductInfo: ");
+		// StdOut.print("\nSearch productProductInfo: ");
 		// productProductInfo = sc.next();
 		productProductInfo = "mobile";
-		System.out.println("\nCRAWLING FOR RELEVANT LINK.....\n");
+		StdOut.println("\nCRAWLING FOR RELEVANT LINK.....\n");
 		obj.crawl(url, productProductInfo);
 
 		StdOut.println("\nLINK FOUND!!\n");
@@ -145,7 +145,7 @@ public class Test {
 		// StdOut.println("Number of pages to search: ");
 		// searchPage = sc.nextInt();
 		searchPage = 10;
-		System.out.println("\nFETCHING PRODUCTProductInfoS.....\n");
+		StdOut.println("\nFETCHING PRODUCTProductInfoS.....\n");
 		productProductInfos = WebScrapper.getItems(obj.resultLink, productProductInfos, searchPage);
 		filter(productProductInfos);
 
@@ -181,7 +181,7 @@ public class Test {
 				case 2: {
 					StdOut.println("Enter memory size (in GB): ");
 					memory = sc.next();
-					while (!DataValidation.memoryValidation(memory)) {
+					while (!DataValidator.memoryValidation(memory)) {
 						StdOut.println("Invalid input!");
 						StdOut.println("Enter a valid memory size (in GB): ");
 						memory = sc.next();
@@ -208,7 +208,7 @@ public class Test {
 					SearchFrequency.FrequentCount(brand);
 					StdOut.println("Enter memory size (in GB): ");
 					memory = sc.next();
-					while (!DataValidation.memoryValidation(memory)) {
+					while (!DataValidator.memoryValidation(memory)) {
 						StdOut.println("Invalid input!");
 						StdOut.println("Enter a valid memory size (in GB): ");
 						memory = sc.next();

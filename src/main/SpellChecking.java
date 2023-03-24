@@ -83,16 +83,17 @@ public class SpellChecking {
 	// This will be used to debug the system.
 	public static void printDictionary() {
 		int len = dictionary.size();
-		System.out.println("The dictionary contains: ");
+		StdOut.println("The dictionary contains: ");
 		for (int i = 0; i < len; i++) {
-			System.out.println(dictionary.get(i));
+			StdOut.println(dictionary.get(i));
 		}
 		return;
 	}
 
 	// assembles every word from the vocabulary
 	public void getVocab() throws IOException {
-		File files = new File("C:\\Users\\admin\\Downloads\\Hoa_To_part\\dictionary\\Oxford English Dictionary.txt");
+		// dictinary file
+		File files = new File(Constants.dictionaryFile);
 
 		StringBuilder SB = new StringBuilder();
 		StringTokenizer STK;
@@ -139,11 +140,11 @@ public class SpellChecking {
 			temp.put(aa.getKey(), aa.getValue());
 		}
 		mp2 = temp;
-		// System.out.println(mp2.size());
+		// StdOut.println(mp2.size());
 		int rank = 0;
 		for (Map.Entry<String, Integer> en : mp2.entrySet()) {
 			if (en.getValue() != 0) {
-				// System.out.println(en.getKey() +" "+en.getValue()+"\n");
+				// StdOut.println(en.getKey() +" "+en.getValue()+"\n");
 				suggestions[rank] = en.getKey();
 				rank++;
 				if (rank == 10) {
@@ -162,10 +163,10 @@ public class SpellChecking {
 		sp.getVocab();
 		sp.setnumberOfSuggestions(N);
 		String s[] = sp.getAltWords("computer");
-		System.out.println(s.length);
+		StdOut.println(s.length);
 		// String s[] = sp.getAltWords("digi");
 		for (int i = 0; i < 10; i++) {
-			System.out.println(s[i]);
+			StdOut.println(s[i]);
 		}
 	}
 }

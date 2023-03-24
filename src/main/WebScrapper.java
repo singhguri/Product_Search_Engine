@@ -10,7 +10,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /*
- * DONE BY HOA TO
  * 
  * Web Scrapper class
  * 
@@ -72,7 +71,7 @@ public class WebScrapper {
 					ProductInfo p = new ProductInfo();
 					Elements name = item.select(PRODUCT_NAMES);
 					if (!name.isEmpty()) {
-						// System.out.println("Item: "+name.text());
+						// StdOut.println("Item: "+name.text());
 						p.setProductName(name.text());
 					}
 
@@ -81,7 +80,7 @@ public class WebScrapper {
 					if (!priceContainer.isEmpty()) {
 						if (!priceContainer.isEmpty()) {
 							double priceValue = Double.parseDouble(price.text().replace(",", "").substring(1));
-							// System.out.println("Price: "+price.text());
+							// StdOut.println("Price: "+price.text());
 							p.setProductFormattedPrice(price.text());
 							p.setProductPrice(priceValue);
 						}
@@ -89,7 +88,7 @@ public class WebScrapper {
 						Elements link = item.select("a[href]");
 						if (!link.isEmpty()) {
 							p.setProductLink(link.first().attr("href"));
-							// System.out.println("Link: "+link.attr("href")+"\n");
+							// StdOut.println("Link: "+link.attr("href")+"\n");
 						}
 						checkProductInfo(p);
 						if (hasItem(products, p))
@@ -98,7 +97,6 @@ public class WebScrapper {
 					}
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -113,10 +111,10 @@ public class WebScrapper {
 		products = getItems(url, products, 10);
 
 		for (ProductInfo p : products) {
-			System.out.println("Item: " + p.getProductName());
-			System.out.println("Price: " + p.getProductFormattedPrice());
-			System.out.println("Financing type: " + p.getProductPaymentType());
-			System.out.println("Link: " + p.getProductLink() + "\n");
+			StdOut.println("Item: " + p.getProductName());
+			StdOut.println("Price: " + p.getProductFormattedPrice());
+			StdOut.println("Financing type: " + p.getProductPaymentType());
+			StdOut.println("Link: " + p.getProductLink() + "\n");
 		}
 	}
 

@@ -21,10 +21,11 @@ public class InvertedIndex {
 
 		// scanner for scanning file from the directory
 		Scanner scanFile;
-		//
+
 		String readWord;
-		//
+
 		File pathOfFolder = new File("text/");
+
 		// for loop to add files in the documents
 		for (File fileEntry : pathOfFolder.listFiles())
 			documents.add(fileEntry.getName());
@@ -84,7 +85,6 @@ public class InvertedIndex {
 
 	// main method for this class
 	public static void main(String[] args) {
-
 		// calling the fileaccessories method for indexing the files
 		readFile();
 	}

@@ -2,10 +2,10 @@ package main;
 
 public class StdOut {
   public static void println(Object obj) {
-    StdOut.println(obj);
+    System.out.println(obj);
   }
 
   public static void print(Object obj) {
-    StdOut.print(obj);
+    System.out.print(obj);
   }
 }

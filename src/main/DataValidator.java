@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-public class DataValidation {
+public class DataValidator {
     public static boolean brandNameValidation(String textfile) {
         // Create a Pattern object
         Pattern r = Pattern.compile("^[a-z-]+$");
@@ -65,8 +65,8 @@ public class DataValidation {
         Document bestBuy = Jsoup.connect(url).get();
         Scanner input = new Scanner(System.in);
         String txt = bestBuy.body().text();
-        String brand;
-        String price;
+        // String brand;
+        // String price;
         String memory;
 
         StdOut.print("\nEnter memory: ");
