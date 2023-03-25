@@ -1,5 +1,6 @@
 package main;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,95 +13,88 @@ import org.jsoup.select.Elements;
  * 
  * Web Scrapper class
  * 
- * use function getItems() by:
- * - input a store's start URL
- * - input the number of pages to search
- * 
  */
 
 public class WebScrapper {
-	// Best buy html element that stores the product list
-	private static final String PRODUCT_LIST_ITEM = "col-xs-12_198le col-sm-4_13E9O col-lg-3_ECF8k x-productListItem productLine_2N9kG";
+		// HTML element or class of Best buy website that stores the products list
+		private static final String PRODUCT_LIST_ITEMS = "col-xs-12_198le col-sm-4_13E9O col-lg-3_ECF8k x-productListItem productLine_2N9kG";
 
-	// Best buy html element that contains product name
-	private static final String PRODUCT_NAMES = "div.productItemName_3IZ3c";
+		// HTML element or class of Best buy website that contains product name
+		private static final String PRODUCT_NAMES_INFO = "div.productItemName_3IZ3c";
 
-	// Best buy html element that stores pricing-related information
-	private static final String PRODUCT_PRICES = "div.productPricingContainer_3gTS3";
+		// HTML element or class of Best buy website that stores pricing-related information
+		private static final String PRODUCT_PRICES_INFO = "div.productPricingContainer_3gTS3";
 
-	// Best buy html element that contains the product's price
-	private static final String PRODUCT_INDIVIDUAL_PRICE = "span[data-automation=product-price] > div";
+		// HTML element or class of Best buy website that contains the product's price
+		private static final String PRODUCT_INDIVIDUAL_PRICE_INFO = "span[data-automation=product-price] > div";
 
-	// Function to check if product pricing is monthly or
-	public static void checkProductInfo(ProductInfo p) {
-		if (p.getProductName().contains("Monthly"))
-			p.setProductPaymentType("Monthly - 24 months");
+
+	// Function to check if a ProductInfo's pricing is monthly or one time pay option.
+	// Input is ProductInfo class
+	// its sets the payment type of the ProductInfo in the ProductInfo class.
+	public static void checkProductInfoType(ProductInfo ProductInfo) {
+		if (ProductInfo.getProductName().contains("Monthly"))
+			ProductInfo.setProductPaymentType("Monthly - 24 months");
 		else
-			p.setProductPaymentType("Unlocked - One time pay");
+			ProductInfo.setProductPaymentType("Unlocked - One time pay");
 	}
 
-	// Function to check if product already existed in list
-	public static boolean hasItem(List<ProductInfo> products, ProductInfo p) {
-		for (ProductInfo pro : products) {
-			if (pro.equals(p))
+	// Function to check if ProductInfo already exists in the ProductInfo list
+	public static boolean ProductInfoExists(List<ProductInfo> ProductInfos, ProductInfo ProductInfo) {
+		for (ProductInfo element : ProductInfos) {
+			
+			if (element.getProductName() == ProductInfo.getProductName()) {
 				return true;
+			} else {
+				return false;
+			}
 		}
 		return false;
 	}
 
 	// Scrap items page by page
-	public static List<ProductInfo> getItems(String start_url, List<ProductInfo> products, int numSearch) {
+	public static List<ProductInfo> getProductItemsInfo(String initialUrl, List<ProductInfo> products, int pagesToSearch) {
 		// Append the url with page 0
-		start_url = start_url + "/?pages=0";
+		initialUrl = initialUrl + "/?pages=0";
+		initialUrl = initialUrl.substring(0, initialUrl.length() - 1);
+		initialUrl = initialUrl + Integer.toString(1);
 
-		// Scrapping the product url page by page
-		for (int i = 1; i <= numSearch; i++) {
-			// Replace page number
-			start_url = start_url.substring(0, start_url.length() - 1);
-			start_url = start_url.substring(0, start_url.length() - 1);
-			start_url = start_url + Integer.toString(i);
-
-			// Scrapping the name, price and link to buy of products
+			// Extracting the ProductInfo details like name, price, type, and link to buy of
+			// ProductInfos using the Jsoup library to scrap data from the URLs
 			try {
-				Document bestBuy = Jsoup.connect(start_url).get();
-				Elements items = bestBuy.getElementsByClass(PRODUCT_LIST_ITEM);
+				Document websiteHTMLDoc = Jsoup.connect(initialUrl).get();
+				Elements items = websiteHTMLDoc.getElementsByClass(PRODUCT_LIST_ITEMS);
 
 				for (Element item : items) {
-					ProductInfo p = new ProductInfo();
-					Elements name = item.select(PRODUCT_NAMES);
+					ProductInfo newProductInfo = new ProductInfo();
+					Elements name = item.select(PRODUCT_NAMES_INFO);
+
 					if (!name.isEmpty()) {
-						// StdOut.println("Item: "+name.text());
-						p.setProductName(name.text());
+						newProductInfo.setProductName(name.text());
 					}
 
-					Elements priceContainer = item.select(PRODUCT_PRICES);
-					Element price = priceContainer.select(PRODUCT_INDIVIDUAL_PRICE).first();
-					if (!priceContainer.isEmpty()) {
-						if (!priceContainer.isEmpty()) {
-							double priceValue = Double.parseDouble(price.text().replace(",", "").substring(1));
-							// StdOut.println("Price: "+price.text());
-							p.setProductFormattedPrice(price.text());
-							p.setProductPrice(priceValue);
-						}
+					Elements priceData = item.select(PRODUCT_PRICES_INFO);
+					Element ProductInfoPrice = priceData.select(PRODUCT_INDIVIDUAL_PRICE_INFO).first();
 
-						Elements link = item.select("a[href]");
-						if (!link.isEmpty()) {
-							p.setProductLink(link.first().attr("href"));
-							// StdOut.println("Link: "+link.attr("href")+"\n");
-						}
-						checkProductInfo(p);
-						if (hasItem(products, p))
-							continue;
+					if (!priceData.isEmpty()) {
+						double priceValue = Double.parseDouble(ProductInfoPrice.text().replace(",", "").substring(1));
+						newProductInfo.setProductFormattedPrice(ProductInfoPrice.text());
+						newProductInfo.setProductPrice(priceValue);
+					}
 
-						if (!products.contains(p))
-							products.add(p);
+					Elements ProductInfoLink = item.select("a[href]");
+					if (!ProductInfoLink.isEmpty()) {
+						newProductInfo.setProductLink(initialUrl + ProductInfoLink.first().attr("href"));
+					}
+					checkProductInfoType(newProductInfo);
+					if (!ProductInfoExists(products, newProductInfo)) {
+						products.add(newProductInfo);
 					}
 				}
-			} catch (Exception e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
-		}
 		return (products);
 	}
 
@@ -108,15 +102,14 @@ public class WebScrapper {
 		List<ProductInfo> products = new ArrayList<>();
 
 		String url = "https://www.bestbuy.ca/en-ca/category/best-buy-mobile/20006";
-		products = getItems(url, products, 10);
-
-		StdOut.println(products);
+		products = getProductItemsInfo(url, products, 2);
 
 		for (ProductInfo p : products) {
-			StdOut.println("Item: " + p.getProductName());
-			StdOut.println("Price: " + p.getProductFormattedPrice());
-			StdOut.println("Financing type: " + p.getProductPaymentType());
-			StdOut.println("Link: " + p.getProductLink() + "\n");
+			System.out.println("Item: " + p.getProductName());
+			System.out.println("Price: " + p.getProductFormattedPrice());
+			System.out.println("Financing type: " + p.getProductPaymentType());
+			System.out.println("Link: " + p.getProductLink() + "\n");
+
 		}
 	}
 

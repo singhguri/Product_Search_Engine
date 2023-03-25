@@ -149,7 +149,7 @@ public class main {
 		searchPage = 1;
 		StdOut.println("\nFETCHING PRODUCTS.....\n");
 
-		products = WebScrapper.getItems(obj.resultLink, products, searchPage);
+		products = WebScrapper.getProductItemsInfo(obj.resultLink, products, searchPage);
 		filter(products);
 
 		while (user_option != 4) {
