@@ -6,19 +6,19 @@ import java.util.*;
 public class SpellChecking {
 
 	private static ArrayList<String> dictionary = new ArrayList<>();
-	private static HashMap<String, Integer> mp;
+	private static HashMap<String, Integer> hashMap;
 	public static String[] suggestions;
-	private static Map<String, Integer> mp2;
-	private static List<Map.Entry<String, Integer>> list;
-	private static HashMap<String, Integer> temp;
+	private static Map<String, Integer> hashMap2;
+	private static List<Map.Entry<String, Integer>> linkedList;
+	private static HashMap<String, Integer> tempLinkedList;
 
 	private static int numberOfSuggestions;
 
 	// Constructor
 	SpellChecking() {
 		numberOfSuggestions = 10;
-		mp = new HashMap<>();
-		mp = new HashMap<>();
+		hashMap = new HashMap<>();
+		hashMap = new HashMap<>();
 		dictionary = new ArrayList<>();
 		suggestions = new String[numberOfSuggestions];
 	}
@@ -90,64 +90,65 @@ public class SpellChecking {
 		return;
 	}
 
-	// assembles every word from the vocabulary
-	public void getVocab() throws IOException {
-		// dictinary file
-		File files = new File(Constants.dictionaryFile);
+	// get all the words from the dictionary
+	public void getVocabolary() throws IOException {
+		// initializing the dictionary into file object
+		File dictionaryFile = new File(Constants.dictionaryFile);
 
-		StringBuilder SB = new StringBuilder();
-		StringTokenizer STK;
+		StringBuilder stringBuilder = new StringBuilder();
+		StringTokenizer stringToken;
 
-		BufferedReader BR = new BufferedReader(new FileReader(files));
-		String str;
+		BufferedReader bufferedReader = new BufferedReader(new FileReader(dictionaryFile));
+		String string;
 
 		// adding each string in the String Builder in
-		while ((str = BR.readLine()) != null) {
-			SB.append(str);
-			SB.append(" ");
+		while ((string = bufferedReader.readLine()) != null) {
+			stringBuilder.append(string);
+			stringBuilder.append(" ");
 		}
-		BR.close();
-		String allwords = SB.toString();
+		bufferedReader.close();
+		String allwords = stringBuilder.toString();
 
-		STK = new StringTokenizer(allwords, "0123456789 ,`*$|~(){}_@><=+[]\\?;/&#-.!:\"'\n\t\r");
+		stringToken = new StringTokenizer(allwords, "0123456789 ,[\\~\\(\\)\\{\\}\\_\\@\\>\\<\\=\\+\\[\\]\\\\\\/\\?\\;\\&\\#\\-\\.\\!\\:\\\"\\'\\n\\t\\r]*$\n");
 
-		while (STK.hasMoreTokens()) {
-			String tk = STK.nextToken().toLowerCase(Locale.ROOT);
-			if (!dictionary.contains(tk)) {
-				dictionary.add(tk);
+		while (stringToken.hasMoreTokens()) {
+			String token = stringToken.nextToken().toLowerCase(Locale.ROOT);
+			if (!dictionary.contains(token)) {
+				dictionary.add(token);
 			}
 		}
 	}
 
 	// receives suggestions for a false word
-	public String[] getAltWords(String query) {
+	public String[] getSimilarWords(String input) {
 
-		mp = new HashMap<>();
+		hashMap = new HashMap<>(); // new hash map to store words from the dictionary.
 
+		// putting the similar words and there edit distance value in the hash map.
 		for (int i = 0; i < dictionary.size(); i++) {
-			String s = dictionary.get(i);
-			int editDis = getEditDistance(query, s);
-			mp.put(s, editDis);
+			String dictionaryString = dictionary.get(i);
+			int editDistance = getEditDistance(input, dictionaryString); // calculating edit distance between the input
+																			// and dictionary words.
+			hashMap.put(dictionaryString, editDistance);
 		}
 
-		list = new LinkedList<>(mp.entrySet());
+		linkedList = new LinkedList<>(hashMap.entrySet());
 
-		list.sort(Map.Entry.comparingByValue());
+		linkedList.sort(Map.Entry.comparingByValue());
 
 		// Data from a sorted list will then be added to a hash map.
-		temp = new LinkedHashMap<>();
-		for (Map.Entry<String, Integer> aa : list) {
-			temp.put(aa.getKey(), aa.getValue());
+		tempLinkedList = new LinkedHashMap<>();
+		for (Map.Entry<String, Integer> aa : linkedList) {
+			tempLinkedList.put(aa.getKey(), aa.getValue());
 		}
-		mp2 = temp;
-		// StdOut.println(mp2.size());
-		int rank = 0;
-		for (Map.Entry<String, Integer> en : mp2.entrySet()) {
-			if (en.getValue() != 0) {
-				// StdOut.println(en.getKey() +" "+en.getValue()+"\n");
-				suggestions[rank] = en.getKey();
-				rank++;
-				if (rank == 10) {
+		hashMap2 = tempLinkedList;
+
+		int wordLimit = 0;
+		for (Map.Entry<String, Integer> entry : hashMap2.entrySet()) {
+			if (entry.getValue() != 0) {
+				suggestions[wordLimit] = entry.getKey();
+				wordLimit++;
+				if (wordLimit == 10) {
 					break;
 				}
 			}
@@ -160,9 +161,9 @@ public class SpellChecking {
 		// This will be used to debug the system.
 		SpellChecking sp = new SpellChecking();
 		int N = 10;
-		sp.getVocab();
+		sp.getVocabolary();
 		sp.setnumberOfSuggestions(N);
-		String s[] = sp.getAltWords("computer");
+		String s[] = sp.getSimilarWords("computer");
 		StdOut.println(s.length);
 		// String s[] = sp.getAltWords("digi");
 		for (int i = 0; i < 10; i++) {

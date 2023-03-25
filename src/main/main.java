@@ -122,7 +122,7 @@ public class main {
 
 		SpellChecking sp = new SpellChecking();
 		int N = 10;
-		sp.getVocab();
+		sp.getVocabolary();
 		sp.setnumberOfSuggestions(N);
 
 		List<ProductInfo> products = new ArrayList<>();
@@ -167,7 +167,7 @@ public class main {
 					brand = sc.next().toLowerCase();
 					while (!sp.isCorrect(brand)) {
 						SearchFrequency.FrequentCount(brand);
-						sp.getAltWords(brand);
+						sp.getSimilarWords(brand);
 						String[] s = sp.suggestions;
 						StdOut.println("Do you mean: ");
 						for (int index = 0; index < 10; index++) {
@@ -199,7 +199,7 @@ public class main {
 					brand = sc.next().toLowerCase();
 					while (!sp.isCorrect(brand)) {
 						SearchFrequency.FrequentCount(brand);
-						sp.getAltWords(brand);
+						sp.getSimilarWords(brand);
 						String[] s = sp.suggestions;
 						StdOut.println("Do you mean: ");
 						for (int index = 0; index < 10; index++) {
