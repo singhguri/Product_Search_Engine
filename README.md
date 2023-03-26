@@ -1,5 +1,12 @@
 # BEST BUY PRODUCT SEARCH ENGINE
 
+## Contributors
+
+- [Gurpreet Singh](https://github.com/singhguri)
+- [Paras Malhotra](https://github.com/paras02918)
+- [Shaurya Sharma](https://github.com/ShauRya765)
+- [Divya Kumar Patel](https://github.com/DivyakumarPatel)
+
 ## Features
 
 - Page Ranking
