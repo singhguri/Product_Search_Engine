@@ -21,7 +21,7 @@ The dependencies for this project must be same as listed below:
 ## How to run?
 
 - Install the the dependencies.
-- Run ```sh main.java```
+- Run ```main.java```
 
 ## License
 
