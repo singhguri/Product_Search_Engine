@@ -137,7 +137,7 @@ public class main {
 		// StdOut.print("\nSearch productProductInfo: ");
 		// productProductInfo = sc.next();
 		productInfo = "mobile";
-		StdOut.println("\nCRAWLING FOR RELEVANT LINK.....\n");
+		StdOut.println("\nCRAWLING THE WEB FOR RELEVANT LINK.....\n");
 		obj.crawl(url, productInfo);
 
 		StdOut.println("\nLINK FOUND!!\n");
@@ -147,7 +147,7 @@ public class main {
 		// StdOut.println("Number of pages to search: ");
 		// searchPage = sc.nextInt();
 		searchPage = 1;
-		StdOut.println("\nFETCHING PRODUCTS.....\n");
+		StdOut.println("\nFETCHING THE PRODUCTS.....\n");
 
 		products = WebScrapper.getProductItemsInfo(obj.resultLink, products, searchPage);
 		filter(products);

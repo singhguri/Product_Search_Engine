@@ -33,8 +33,9 @@ public class WebCrawler {
 
 		// Adds the current URL to the visited URLs
 		urlLinks.add(URL);
-		Document document = Jsoup.connect(URL).get(); // Connects to the current URL and retrieve the HTML document
-														// using the JSoup library
+		// Connects to the current URL and retrieve the HTML document
+		// using the JSoup library
+		Document document = Jsoup.connect(URL).get();
 
 		// Defines the regular expresion for the URLs that the web crawler would follow
 		String patternCrawl = "^(https?)://(www\\.)[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*(\\.)(ca|com)[-a-zA-Z0-9+&@#/%=~_|]*";
